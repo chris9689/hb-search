@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Search, SlidersHorizontal, ChevronDown, Heart, ShoppingBag, User, X, Camera, MessageCircle, Leaf } from 'lucide-react';
+import { Search, SlidersHorizontal, ChevronDown, Heart, ShoppingBag, User, X, Camera, MessageCircle } from 'lucide-react';
 import { useDYSearch } from './hooks/useDYSearch';
 import { useConfig } from './context/ConfigContext';
 import { extractDyPayload } from './utils/dyResponseAdapter';
@@ -91,44 +91,54 @@ export default function App() {
         </div>
       )}
 
-      {/* Tamimi Markets Header */}
-      <header className="sticky top-0 z-50 frosted-glass shadow-sm">
-        <div className="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between gap-8">
-          <div className="relative group">
-            {!logoError ? (
-              <img src={config.logoUrl || '/tamimi-logo.svg'} alt="Tamimi Markets" className="h-10 w-auto cursor-pointer select-none pb-3 box-content" onError={() => setLogoError(true)} />
+      <div className="bg-primary text-white text-center text-[10px] font-semibold uppercase py-2.5 px-4">
+        HUGO BOSS / Search Playground
+      </div>
+      <header className="sticky top-0 z-50 frosted-glass">
+        <div className="max-w-400 mx-auto px-4 sm:px-8 lg:px-12 h-20 flex items-center justify-between gap-6">
+          <a href="/" aria-label="HUGO BOSS search" className="shrink-0">
+            {config.logoUrl && !logoError ? (
+              <img src={config.logoUrl} alt="HUGO BOSS" className="h-10 max-w-36 object-contain" onError={() => setLogoError(true)} />
             ) : (
-              <div className="flex items-center gap-1.5 cursor-pointer select-none pb-3">
-                <span className="font-heading text-2xl font-extrabold lowercase tracking-tight text-primary">tamimi</span>
-                <span className="font-heading text-2xl font-extrabold lowercase tracking-tight text-ink">markets</span>
-                <Leaf size={16} className="text-secondary -ml-0.5 -mt-3 rotate-45" strokeWidth={2.5} />
-              </div>
+              <span className="flex flex-col items-center text-ink leading-none">
+                <span className="font-heading text-[38px] font-extrabold">BOSS</span>
+                <span className="text-[9px] font-semibold mt-0.5">HUGO BOSS</span>
+              </span>
             )}
-            <div className="absolute top-full left-0 -translate-y-3 pt-3 w-44 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-50">
-              <div className="bg-white border border-line shadow-lg rounded-sm">
-                <a href="/benchmark" className="flex items-center gap-2 px-4 py-3 text-[11px] font-bold uppercase tracking-widest text-muted hover:text-primary hover:bg-gray-50 transition-colors">
-                  Search Benchmark
-                </a>
-              </div>
+          </a>
+          <nav aria-label="Main navigation" className="flex items-center gap-5 sm:gap-8 flex-1 text-xs font-semibold uppercase">
+            <a href="/" aria-current="page" className="border-b-2 border-black py-2">Search</a>
+            <a href="/benchmark" className="py-2 text-muted hover:text-ink">Benchmark</a>
+          </nav>
+          <div className="hidden sm:flex items-center gap-6" aria-label="Storefront preview">
+            <User size={21} strokeWidth={1.5} aria-label="Account" />
+            <Heart size={21} strokeWidth={1.5} aria-label="Wishlist" />
+            <div className="flex items-center gap-2">
+              <ShoppingBag size={21} strokeWidth={1.5} aria-label="Shopping bag" />
+              <span className="text-xs">0</span>
             </div>
           </div>
-
-          <div className="flex-1 max-w-2xl flex items-center gap-2">
-            <div className="relative flex-1">
-              <input 
+        </div>
+        <div className="border-t border-line">
+          <div className="max-w-250 mx-auto px-4 sm:px-8 py-4 flex items-center gap-3">
+            <div className="relative flex-1 min-w-0">
+              <input
                 type="text"
+                aria-label="Search products"
                 value={searchTerm}
-                placeholder="Search groceries, brands, and more…"
-                className="w-full bg-black/5 hover:bg-black/[0.07] focus:bg-white border border-transparent focus:border-primary rounded-sm py-2.5 px-11 text-sm transition-all outline-none"
+                placeholder="Search products and brands"
+                className="w-full bg-[#f5f5f5] focus:bg-white border border-transparent focus:border-primary rounded-none h-12 pl-11 pr-24 text-sm transition-colors outline-none"
                 onChange={handleSearchChange}
               />
-              <Search className="absolute left-3.5 top-3 text-gray-400 group-focus-within:text-primary transition-colors" size={18} />
+              <Search className="absolute left-4 top-4 text-muted" size={17} />
               {searchTerm && (
-                <button 
+                <button
                   onClick={() => { setSearchTerm(''); updateSearch(''); }}
-                  className="absolute right-3.5 top-3 text-gray-400 hover:text-primary"
+                  className="absolute right-1 top-1 h-10 w-10 flex items-center justify-center text-muted hover:text-ink"
+                  aria-label="Clear search"
+                  title="Clear search"
                 >
-                  <X size={18} />
+                  <X size={17} />
                 </button>
               )}
               <button
@@ -136,49 +146,30 @@ export default function App() {
                   setProductImageForSearch(undefined);
                   setShowVisualSearch(true);
                 }}
-                className="absolute right-12 top-3 text-gray-400 hover:text-primary transition-colors"
+                className="absolute right-11 top-1 h-10 w-10 flex items-center justify-center text-muted hover:text-ink"
                 title="Visual search"
                 aria-label="Visual search"
               >
-                <Camera size={18} />
+                <Camera size={19} strokeWidth={1.5} />
               </button>
             </div>
             <button
               onClick={() => setShowMuseChat(true)}
-              className="h-10 px-3.5 border border-primary text-primary bg-white hover:bg-primary hover:text-white transition-colors rounded-sm text-[11px] font-bold uppercase tracking-wider flex items-center gap-2 whitespace-nowrap"
+              className="h-12 w-12 sm:w-auto sm:px-5 shrink-0 border border-primary bg-primary text-white hover:bg-primary-dark transition-colors text-[11px] font-bold uppercase flex items-center justify-center gap-2"
               aria-label="Ask Muse"
+              title="Ask Muse"
             >
-              <MessageCircle size={14} />
-              Ask Muse
+              <MessageCircle size={18} strokeWidth={1.5} />
+              <span className="hidden sm:inline">Ask Muse</span>
             </button>
-            <img
-              src="/1000103986-20240311-064145.webp"
-              alt="Tamimi delivery"
-              title="Tamimi delivery & online shopping"
-              className="hidden xl:block h-10 w-auto max-w-[150px] rounded-lg object-contain shrink-0"
-            />
-          </div>
-
-          <div className="flex items-center gap-7">
-            <div className="hidden md:flex items-center gap-6">
-              <User size={24} strokeWidth={1.5} className="cursor-pointer hover:scale-110 transition-transform" />
-              <div className="relative">
-                <Heart size={24} strokeWidth={1.5} className="cursor-pointer hover:scale-110 hover:text-primary transition-all" />
-                <span className="absolute -top-1.5 -right-1.5 bg-primary text-white text-[8px] font-bold h-4 w-4 rounded-full flex items-center justify-center">0</span>
-              </div>
-            </div>
-            <div className="relative">
-              <ShoppingBag size={24} strokeWidth={1.5} className="cursor-pointer hover:scale-110 hover:text-primary transition-all" />
-              <span className="absolute -top-1.5 -right-1.5 bg-primary text-white text-[8px] font-bold h-4 w-4 rounded-full flex items-center justify-center">0</span>
-            </div>
           </div>
         </div>
       </header>
 
-      <main className="max-w-[1440px] mx-auto px-6 py-10">
+      <main className="max-w-400 mx-auto px-4 sm:px-8 lg:px-12 pt-8 pb-28">
         {/* Page Title and Sort - High Density Layout */}
-        <div className="flex flex-col md:flex-row justify-between items-baseline gap-4 mb-10">
-          <div>
+        <div className="flex flex-col md:flex-row justify-between items-baseline gap-4 mb-8 pb-7 border-b border-line">
+          <div className="min-w-0">
             <nav className="flex items-center gap-2 text-[10px] text-gray-400 uppercase tracking-widest mb-3">
               {breadcrumbParts.length > 0 ? (
                 breadcrumbParts.map((part, idx) => (
@@ -193,9 +184,9 @@ export default function App() {
                 <span className="text-ink font-bold">Search</span>
               )}
             </nav>
-            <h1 className="text-3xl font-heading font-semibold tracking-tight flex items-center gap-4">
-              {debouncedSearch ? `Search results: ${debouncedSearch}` : 'Featured groceries'}
-              <span className="text-sm text-gray-400 font-normal normal-case">
+            <h1 className="text-2xl sm:text-3xl font-heading font-extrabold uppercase flex flex-wrap items-baseline gap-x-4 gap-y-2 wrap-anywhere">
+              <span>{debouncedSearch ? `Search results: ${debouncedSearch}` : 'Featured products'}</span>
+              <span className="text-xs text-muted font-normal normal-case shrink-0">
                 ({totalNumResults || 0} items{isFallback && <span className="text-primary text-[10px] ml-0.5" title="Showing fallback results (affinity profile returned no results)">f</span>})
               </span>
             </h1>
@@ -211,9 +202,9 @@ export default function App() {
           </div>
         </div>
 
-        <div className="flex gap-12">
+        <div className="flex gap-8 xl:gap-10">
           {/* DY Dynamic Facets Sidebar */}
-          <aside className="hidden lg:block w-64 shrink-0 space-y-10">
+          <aside aria-label="Product filters" className="hidden lg:block w-48 xl:w-52 shrink-0 space-y-8">
             {isLoading || isFetching ? (
               Array(4).fill(0).map((_, i) => <SkeletonFilter key={i} />)
             ) : (
@@ -261,12 +252,12 @@ export default function App() {
           </aside>
 
           {/* Product Grid - 4 Columns Responsive */}
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             {/* Subtle retrying indicator */}
             {failureCount > 0 && isFetching && (
               <p className="text-[11px] text-gray-400 uppercase tracking-widest mb-4 animate-pulse">Retrying…</p>
             )}
-            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-12">
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 sm:gap-x-5 gap-y-10">
               {isLoading || isFetching ? (
                 Array(12).fill(0).map((_, i) => <SkeletonCard key={i} />)
               ) : (
@@ -346,10 +337,10 @@ export default function App() {
       </main>
 
       {/* Mobile Filter Sticky Toggle */}
-      <div className="lg:hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
+      <div className="lg:hidden fixed bottom-6 left-4 z-50">
         <button 
           onClick={() => setIsMobileFilterOpen(true)}
-          className="flex items-center gap-3 bg-primary text-white px-10 py-4 rounded-full text-xs font-bold uppercase tracking-widest shadow-2xl active:scale-95 transition-all"
+          className="h-12 flex items-center gap-3 bg-primary text-white px-5 text-xs font-bold uppercase shadow-lg active:scale-95 transition-all"
         >
           <SlidersHorizontal size={18} /> Filter & Sort
         </button>
@@ -375,7 +366,7 @@ export default function App() {
             >
               <div className="flex justify-between items-center mb-8 pb-4 border-b">
                 <h2 className="text-lg font-bold uppercase tracking-tight">Filters</h2>
-                <button onClick={() => setIsMobileFilterOpen(false)} className="p-2"><X /></button>
+                <button onClick={() => setIsMobileFilterOpen(false)} className="p-2" aria-label="Close filters" title="Close filters"><X /></button>
               </div>
               <div className="flex-1 overflow-y-auto space-y-8 pr-2">
                 {facets.map((facet) => (
@@ -444,12 +435,11 @@ export default function App() {
 // --- Skeleton Components ---
 
 const SkeletonCard = () => (
-  <div className="animate-pulse flex flex-col items-center">
-    <div className="aspect-square w-full bg-gray-100 rounded-lg" />
-    <div className="h-10 w-10 bg-gray-200 rounded-full -mt-5 ring-4 ring-white" />
-    <div className="h-4 bg-gray-100 w-1/3 rounded-full mt-3" />
-    <div className="h-3 bg-gray-100 w-3/4 rounded-full mt-3" />
-    <div className="h-3 bg-gray-100 w-1/2 rounded-full mt-2" />
+  <div className="animate-pulse flex flex-col">
+    <div className="aspect-3/4 w-full bg-gray-100" />
+    <div className="h-3 bg-gray-100 w-1/3 mt-4" />
+    <div className="h-3 bg-gray-100 w-3/4 mt-3" />
+    <div className="h-3 bg-gray-100 w-1/2 mt-3" />
   </div>
 );
 

@@ -259,8 +259,7 @@ export const ConfigPanel = ({ onClose }: { onClose: () => void }) => {
                   <span className="hidden" aria-hidden="true">
                     <Terminal size={0} />
                   </span>
-                  <h2 className="text-lg font-semibold text-gray-900">Tamimi Search Settings</h2>
-                  <p className="mt-0.5 text-sm text-gray-500">Configure search, inspect payloads, and review network traffic.</p>
+                  <h2 className="text-lg font-semibold text-gray-900">HUGO BOSS Search Settings</h2>
                 </div>
               </div>
 
@@ -286,6 +285,8 @@ export const ConfigPanel = ({ onClose }: { onClose: () => void }) => {
             <button
               type="button"
               onClick={onClose}
+              aria-label="Close settings"
+              title="Close settings"
               className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700"
             >
               <X size={20} />
@@ -571,7 +572,7 @@ export const ConfigPanel = ({ onClose }: { onClose: () => void }) => {
                     label="Category Path"
                     value={localConfig.categoryPath}
                     onChange={(v: string) => updateField('categoryPath', v)}
-                    description="Format: Tamimi Markets / Fresh Food / Search"
+                    description="Format: HUGO BOSS / Collection / Search"
                     className="sm:col-span-2"
                   />
                 </div>

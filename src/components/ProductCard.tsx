@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import { Heart, ShoppingBag, Camera, Plus } from 'lucide-react';
+import { Heart, ShoppingBag, Camera } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { ScoreInfo } from './ScoreInfoIcon';
 import { useConfig } from '../context/ConfigContext';
 
-// Official new Saudi Riyal symbol, rendered as an inline glyph so it looks right
-// regardless of the active font (Calibri has no Riyal codepoint).
 const RiyalSymbol: React.FC<{ className?: string }> = ({ className }) => (
   <svg
     viewBox="0 0 1124.14 1256.39"
@@ -39,8 +37,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ item, onVisualSearch }
   const currency = (config.currency || 'SAR').toUpperCase();
   const currencyIsSAR = currency === 'SAR' || currency === 'SR';
 
-  // Show the brand emphasised inline with the description (Tamimi live-store pattern).
-  // Strip a leading duplicate so we don't render e.g. "Puck Puck Cream Cheese".
   const description =
     brand && title.toLowerCase().startsWith(brand.toLowerCase())
       ? title.slice(brand.length).replace(/^[\s\-–—,:•]+/, '')
@@ -58,18 +54,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({ item, onVisualSearch }
     <motion.div 
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="group flex flex-col cursor-pointer"
+      className="group relative flex flex-col min-w-0 cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => productUrl !== '#' && window.open(productUrl, '_blank')}
     >
-      {/* Image Container — clean white grocery packshot card */}
-      <div className="relative aspect-square bg-white rounded-lg border border-line overflow-hidden">
+      <div className="relative aspect-3/4 bg-[#f5f5f5] overflow-hidden">
         {imageUrl ? (
           <img 
             src={isHovered ? (secondaryImageUrl || imageUrl) : imageUrl} 
             alt={title}
-            className="h-full w-full object-contain p-3 transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-[1.03]"
             onError={(e) => {
               (e.target as HTMLImageElement).src = 'https://placehold.co/400x400?text=No+Image';
             }}
@@ -80,19 +75,18 @@ export const ProductCard: React.FC<ProductCardProps> = ({ item, onVisualSearch }
           </div>
         )}
 
-        {/* Angled crimson "% OFF" ribbon */}
         {ribbonText && (
           <div className="tm-ribbon">{ribbonText}</div>
         )}
 
         {/* Score Info Icon (demo tooling) */}
-        <div className="absolute top-2 right-11 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+        <div className="absolute top-2 right-12 transition-opacity z-10">
           <ScoreInfo item={item} />
         </div>
 
         {/* ECO / Organic Badge */}
         {item.eco_aware && (
-          <div className="absolute bottom-2 left-2 bg-secondary text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-tighter">
+          <div className="absolute bottom-14 left-2 bg-white text-ink text-[9px] font-bold px-2 py-1 uppercase">
             Organic
           </div>
         )}
@@ -100,8 +94,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ item, onVisualSearch }
         {/* Wishlist Button — appears on hover for a clean default state */}
         <button
           onClick={(e) => e.stopPropagation()}
-          className="absolute top-2 right-2 p-1.5 rounded-full bg-white/80 hover:bg-white opacity-0 group-hover:opacity-100 transition-all"
+          className="absolute top-2 right-2 h-9 w-9 flex items-center justify-center bg-white/80 hover:bg-white transition-colors"
           aria-label="Add to wishlist"
+          title="Add to wishlist"
         >
           <Heart size={18} className="text-ink group-hover:text-primary transition-colors drop-shadow-sm" />
         </button>
@@ -116,30 +111,26 @@ export const ProductCard: React.FC<ProductCardProps> = ({ item, onVisualSearch }
                 onVisualSearch(selectedImageUrl);
               }
             }}
-            className="absolute bottom-2 left-2 p-2 rounded-full bg-white/85 border border-line text-ink hover:text-primary opacity-0 group-hover:opacity-100 transition-all"
+            className="absolute bottom-2 left-2 h-9 w-9 flex items-center justify-center bg-white/90 text-ink hover:bg-white transition-colors"
             title="Search with this product image"
             aria-label="Visual search"
           >
             <Camera size={16} />
           </button>
         )}
-      </div>
-
-      {/* Signature crimson add button — centered, straddling the image bottom edge */}
-      <div className="relative flex justify-center">
         <button
           onClick={(e) => e.stopPropagation()}
-          className="-mt-5 z-10 h-10 w-10 rounded-full bg-primary text-white flex items-center justify-center shadow-md ring-4 ring-white hover:bg-primary-dark active:scale-95 transition-all"
+          className="absolute bottom-2 right-2 z-10 h-9 w-9 bg-white/90 text-ink flex items-center justify-center hover:bg-white transition-colors"
           aria-label="Add to cart"
+          title="Add to cart"
         >
-          <Plus size={18} strokeWidth={2.5} />
+          <ShoppingBag size={17} strokeWidth={1.5} />
         </button>
       </div>
 
-      {/* Info Container — price first, then brand + description, centered */}
-      <div className="mt-2 text-center px-1">
-        <div className="flex items-center justify-center gap-2">
-          <span className="inline-flex items-center gap-1 text-[15px] font-bold text-ink">
+      <div className="mt-4 flex flex-col gap-2">
+        <div className="order-2 flex flex-wrap items-center gap-x-2 gap-y-1">
+          <span className="inline-flex items-center gap-1 text-[13px] font-semibold text-ink">
             {currencyIsSAR
               ? <RiyalSymbol className="h-[0.8em] w-[0.72em]" />
               : <span className="text-[0.8em] font-semibold">{currency}</span>}
@@ -153,11 +144,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ item, onVisualSearch }
             </span>
           )}
         </div>
-        <h3 className="mt-1.5 text-[13px] leading-snug line-clamp-2 min-h-[2.4em]">
+        <h3 className="text-[12px] leading-relaxed min-h-[3em] wrap-break-word">
           {brand && description ? (
             <>
-              <span className="font-bold text-ink">{brand}</span>{' '}
-              <span className="text-muted">{description}</span>
+              <span className="block font-bold uppercase text-ink mb-1">{brand}</span>
+              <span className="text-muted line-clamp-2">{description}</span>
             </>
           ) : (
             <span className="font-medium text-ink">{brand || title}</span>

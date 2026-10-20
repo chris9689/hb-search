@@ -105,9 +105,9 @@ const defaultConfig: DYConfig = {
   uid: '9190339902873124000',
   geoCode: 'SA',
   geoRegionCode: 'SA_01',
-  logoUrl: '/tamimi-logo.svg',
+  logoUrl: '',
   currency: 'SAR',
-  categoryPath: 'Tamimi Markets / Search',
+  categoryPath: 'HUGO BOSS / Search',
   useDynamicBoosting: false,
   dynamicBoostingFactors: [
     {

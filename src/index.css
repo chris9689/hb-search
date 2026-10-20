@@ -1,59 +1,64 @@
 @import "tailwindcss";
 
 @theme {
-  /* Tamimi Markets brand tokens (sampled from the live store) */
-  --color-primary: #be1e2e;
-  --color-primary-dark: #9c1826;
-  --color-primary-container: #f7e1e3;
+  --color-primary: #000000;
+  --color-primary-dark: #262626;
+  --color-primary-container: #f2f2f2;
   --color-on-primary: #ffffff;
-  --color-secondary: #38761d;
-  --color-secondary-container: #e2efdb;
-  --color-tertiary: #c8791a;
-  --color-tertiary-container: #fbebd6;
-  --color-ink: #1a1a1a;
-  --color-muted: #59585b;
-  --color-canvas: #f7f7f8;
+  --color-secondary: #595959;
+  --color-secondary-container: #f2f2f2;
+  --color-tertiary: #bb2026;
+  --color-tertiary-container: #fff0f0;
+  --color-ink: #000000;
+  --color-muted: #595959;
+  --color-canvas: #ffffff;
   --color-card: #ffffff;
-  --color-line: #e6e7e9;
+  --color-line: #dedede;
   --color-success: #38761d;
   --color-warning: #c8791a;
 
   --color-glass-white: rgba(255, 255, 255, 0.8);
   --color-glass-border: rgba(255, 255, 255, 0.2);
 
-  --font-sans: "Calibri", "Carlito", "Segoe UI", "Noto Sans Arabic", system-ui, sans-serif;
-  --font-heading: "Calibri", "Carlito", "Segoe UI", "Noto Sans Arabic", system-ui, sans-serif;
+  --font-sans: "Manrope", "Noto Sans Arabic", sans-serif;
+  --font-heading: "Manrope", "Noto Sans Arabic", sans-serif;
 }
 
 @layer base {
+  * {
+    letter-spacing: 0 !important;
+  }
+
   body {
     @apply text-ink font-sans antialiased bg-canvas;
+  }
+
+  button, a, input, select, textarea {
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 3px;
+    }
   }
 }
 
 .frosted-glass {
-  @apply bg-white/80 backdrop-blur-md border-b border-line;
+  @apply bg-white border-b border-line;
 }
 
 .frosted-glass-dark {
   @apply bg-primary/90 backdrop-blur-md border border-white/10;
 }
 
-/* Angled "% OFF" discount ribbon (Tamimi live-store pattern) */
 .tm-ribbon {
   position: absolute;
-  top: 0.75rem;
-  left: -2.25rem;
-  width: 8rem;
-  transform: rotate(-45deg);
-  background-color: var(--color-primary);
-  color: var(--color-on-primary);
+  top: 1rem;
+  left: 1rem;
+  background-color: #ffffff;
+  color: var(--color-tertiary);
   text-align: center;
   font-size: 0.625rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  padding: 0.2rem 0;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  padding: 0.3rem 0.5rem;
   pointer-events: none;
 }
 
