@@ -24,9 +24,10 @@ Hugo Boss-inspired presentation of [tamimi-search](https://github.com/chris9689/
 ## Notes
 
 - Search settings are configurable from the in-app config panel.
+- Men/Women are opt-in gender filters (`male`/`female`, matching the feed). Neither is active on load. Home removes the gender selection while retaining the query and other facets; switching gender resets pagination. These controls use Standard API `query.filters` or Extended API `searchFilters`, never boosting. See the [Search API filter schema](https://dy.dev/reference/search).
 - The same environment variables must be available in deployment.
-- The original catalog identifiers, query, currency, API modes, and persisted configuration/persona keys are deliberately retained. The default results are not a HUGO BOSS catalog. Configure an authorized fashion feed and its currency in Settings to change the data source.
-- Custom logo upload remains available. The default wordmark is rendered as text.
+- Default connection: section `8795532`, feed `991257`, widget `553283`, with euro currency. API modes and persisted configuration/persona keys are retained. Previously saved browser settings override defaults; use Settings to update or reset them.
+- Custom logo upload remains available. The default local logo is extracted from the official [full_logo SVG symbol](https://www.hugoboss.com/on/demandware.static/Sites-IE-Site/-/default/dw502e9fd4/svg/all_svgs.svg#full_logo); a text wordmark remains as the load-error fallback.
 - Wishlist, shopping bag, and recommended-sort affordances retain the source's preview-only behavior; this redesign does not add checkout or sorting functionality.
 
 ## Design Reference

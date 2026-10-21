@@ -48,7 +48,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ item, onVisualSearch }
   const hasDiscount = discountPct > 0;
   const numericPrice = Number(price) || 0;
   const originalPrice = hasDiscount && numericPrice > 0 ? numericPrice / (1 - discountPct / 100) : null;
-  const ribbonText = hasDiscount ? `${discountPct}% OFF` : (item.on_sale ? 'SALE' : null);
 
   return (
     <motion.div 
@@ -73,10 +72,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ item, onVisualSearch }
           <div className="h-full w-full flex items-center justify-center bg-gray-50 text-gray-300">
             <ShoppingBag size={48} strokeWidth={1} />
           </div>
-        )}
-
-        {ribbonText && (
-          <div className="tm-ribbon">{ribbonText}</div>
         )}
 
         {/* Score Info Icon (demo tooling) */}

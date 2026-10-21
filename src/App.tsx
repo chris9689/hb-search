@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Search, SlidersHorizontal, ChevronDown, Heart, ShoppingBag, User, X, Camera, MessageCircle } from 'lucide-react';
+import { Search, SlidersHorizontal, ChevronDown, Heart, ShoppingBag, User, X, Camera, MessageCircle, House } from 'lucide-react';
 import { useDYSearch } from './hooks/useDYSearch';
 import { useConfig } from './context/ConfigContext';
 import { extractDyPayload } from './utils/dyResponseAdapter';
@@ -13,8 +13,8 @@ import debounce from 'lodash/debounce';
 
 export default function App() {
   const { config } = useConfig();
-  const [searchTerm, setSearchTerm] = useState('rice');
-  const [debouncedSearch, setDebouncedSearch] = useState('rice');
+  const [searchTerm, setSearchTerm] = useState('t-shirts');
+  const [debouncedSearch, setDebouncedSearch] = useState('t-shirts');
   const [offset, setOffset] = useState(0);
   const [showConfig, setShowConfig] = useState(false);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
@@ -51,6 +51,16 @@ export default function App() {
   const { data, isLoading, isFetching, isError, error, failureCount } = useDYSearch(debouncedSearch, offset, selectedFilters);
   const { items, facets, totalNumResults } = extractDyPayload(data);
   const isFallback = data?.isFallback ?? false;
+
+  const genderValues = selectedFilters.find(filter => filter.field === 'gender')?.values ?? [];
+
+  const selectGender = (gender: 'male' | 'female' | null) => {
+    setSelectedFilters(previous => [
+      ...previous.filter(filter => filter.field !== 'gender'),
+      ...(gender ? [{ field: 'gender', values: [gender] }] : []),
+    ]);
+    setOffset(0);
+  };
 
   const toggleFilter = (field: string, value: string) => {
     setSelectedFilters(prev => {
@@ -98,7 +108,7 @@ export default function App() {
         <div className="max-w-400 mx-auto px-4 sm:px-8 lg:px-12 h-20 flex items-center justify-between gap-6">
           <a href="/" aria-label="HUGO BOSS search" className="shrink-0">
             {config.logoUrl && !logoError ? (
-              <img src={config.logoUrl} alt="HUGO BOSS" className="h-10 max-w-36 object-contain" onError={() => setLogoError(true)} />
+              <img src={config.logoUrl} alt="HUGO BOSS" className="w-28 sm:w-44 h-10 object-contain" onError={() => setLogoError(true)} />
             ) : (
               <span className="flex flex-col items-center text-ink leading-none">
                 <span className="font-heading text-[38px] font-extrabold">BOSS</span>
@@ -167,6 +177,29 @@ export default function App() {
       </header>
 
       <main className="max-w-400 mx-auto px-4 sm:px-8 lg:px-12 pt-8 pb-28">
+        <div role="group" aria-label="Gender filter" className="inline-flex border border-line mb-6">
+          <button
+            type="button"
+            onClick={() => selectGender(null)}
+            aria-pressed={genderValues.length === 0}
+            aria-label="Home - all genders"
+            title="Home - all genders"
+            className={`h-11 w-12 flex items-center justify-center transition-colors ${genderValues.length === 0 ? 'bg-primary text-white' : 'bg-white text-muted hover:bg-primary-container'}`}
+          >
+            <House size={18} strokeWidth={1.5} />
+          </button>
+          {(['male', 'female'] as const).map(gender => (
+            <button
+              key={gender}
+              type="button"
+              onClick={() => selectGender(gender)}
+              aria-pressed={genderValues.length === 1 && genderValues[0] === gender}
+              className={`h-11 w-24 border-l border-line text-xs font-semibold uppercase transition-colors ${genderValues.length === 1 && genderValues[0] === gender ? 'bg-primary text-white' : 'bg-white text-muted hover:bg-primary-container'}`}
+            >
+              {gender === 'male' ? 'Men' : 'Women'}
+            </button>
+          ))}
+        </div>
         {/* Page Title and Sort - High Density Layout */}
         <div className="flex flex-col md:flex-row justify-between items-baseline gap-4 mb-8 pb-7 border-b border-line">
           <div className="min-w-0">
