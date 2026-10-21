@@ -33,7 +33,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ item, onVisualSearch }
   const imageUrl = item.image_url || item.image_url_small || item.imageUrl || '';
   const productUrl = item.url || item.product_url || '#';
   const brand = typeof item.brand === 'string' ? item.brand.trim() : '';
-  const secondaryImageUrl = item.image_url_secondary || imageUrl;
+  const secondaryImageUrl = item.image_mouseover || item.image_url_secondary || imageUrl;
   const currency = (config.currency || 'SAR').toUpperCase();
   const currencyIsSAR = currency === 'SAR' || currency === 'SR';
 
@@ -75,7 +75,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ item, onVisualSearch }
         )}
 
         {/* Score Info Icon (demo tooling) */}
-        <div className="absolute top-2 right-12 transition-opacity z-10">
+        <div className="absolute top-2 left-2 transition-opacity z-10">
           <ScoreInfo item={item} />
         </div>
 
